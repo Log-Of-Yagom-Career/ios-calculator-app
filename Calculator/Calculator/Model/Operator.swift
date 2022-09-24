@@ -24,6 +24,7 @@ enum Operator: Character, CaseIterable {
         }
     }
     
+ 
     private func add(lhs: Double, rhs: Double) -> Double {
         return lhs + rhs
     }
@@ -32,11 +33,27 @@ enum Operator: Character, CaseIterable {
         return lhs - rhs
     }
     
-    private func divide(lhs: Double, rhs: Double) -> Double {
+    private func divide(lhs: Double, rhs: Double) throws -> Double {
+        do {
+            try errorhandling(rhs: rhs)
+        } catch errers.nanerror {
+            print("")
+        }
+        
         return lhs / rhs
     }
     
     private func multiply(lhs: Double, rhs: Double) -> Double {
         return lhs * rhs
     }
+    
+    func errorhandling(rhs: Double) throws {
+        if rhs == 0 {
+            throw errers.nanerror
+        }
+    }
+}
+
+enum errers: Error {
+    case nanerror
 }

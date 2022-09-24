@@ -74,4 +74,18 @@ final class OperatorTests: XCTestCase {
         //then
         XCTAssertEqual(result, 161.04)
     }
+    
+//    func test_divide일_때_calculates실행시_분모에_0을_넣으면_오류처리가_되는지() {
+//        sut = .divide
+//        
+//        //given
+//        let lhs = 13.2
+//        let rhs: Double = 0
+//        
+//        //when
+//        let result = try sut?.calculates(lhs: lhs, rhs: rhs)
+//        
+//        //then
+//        XCTAssertThrowsError(result, "NaN")
+//    }
 }
