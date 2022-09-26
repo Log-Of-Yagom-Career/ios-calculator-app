@@ -30,7 +30,7 @@ final class FormulaTests: XCTestCase {
     
     func test_입력후_result실행시_순서대로_정상작동이_되는지() {
         // given
-        let givenResult = (13+50.6)*11.1/10
+        let givenResult: Double = ((13+50.6)*11.1)/10
         operandsQueue.enqueue(13)
         operatorsQueue.enqueue(Operator.add)
         operandsQueue.enqueue(50.6)
@@ -40,7 +40,7 @@ final class FormulaTests: XCTestCase {
         operatorsQueue.enqueue(10)
         
         // when
-        let result = sut.result()
+        let result = try? sut.result()
         
         // then
         XCTAssertEqual(result, givenResult)
