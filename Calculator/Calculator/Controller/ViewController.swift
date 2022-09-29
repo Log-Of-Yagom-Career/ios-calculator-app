@@ -15,7 +15,7 @@ class ViewController: UIViewController {
     }
     
     @IBAction func numberButtonTapped(_ sender: UIButton) {
-
+        numberButtonTapped(sender.titleLabel?.text ?? "오류")
     }
     
     @IBAction func zeroButtonTapped(_ sender: UIButton) {
@@ -42,7 +42,12 @@ class ViewController: UIViewController {
     @IBAction func signButtonTapped(_ sender: UIButton) {
     }
     
-
-    
+    func numberButtonTapped(_ text: String) {
+        if numberTextLabel.text == "0" {
+            numberTextLabel.text = text
+        } else {
+            numberTextLabel.text?.append(text)
+        }
+    }
 }
 
