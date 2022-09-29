@@ -60,6 +60,7 @@ class ViewController: UIViewController {
     }
     
     @IBAction func ceButtonTapped(_ sender: UIButton) {
+        numberTextLabel.text = "0"
     }
     
     @IBAction func signButtonTapped(_ sender: UIButton) {
