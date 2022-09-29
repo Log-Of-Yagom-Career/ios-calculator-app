@@ -18,10 +18,12 @@ class ViewController: UIViewController {
         numberButtonTapped(sender.titleLabel?.text ?? "오류")
     }
     
-    @IBAction func zeroButtonTapped(_ sender: UIButton) {
-    }
-    
     @IBAction func doubleZeroButtonTapped(_ sender: UIButton) {
+        if numberTextLabel.text == "0" {
+            numberTextLabel.text = "0"
+        } else {
+            numberTextLabel.text?.append("00")
+        }
     }
     
     @IBAction func dotButtonTapped(_ sender: UIButton) {
