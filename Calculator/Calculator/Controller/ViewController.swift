@@ -43,6 +43,9 @@ class ViewController: UIViewController {
     }
     
     @IBAction func operatorButtonTapped(_ sender: UIButton) {
+        operatorLabel.text = sender.currentTitle
+        numberTextLabel.text = "0"
+        dotState = .able
     }
     
     @IBAction func equalButtonTapped(_ sender: UIButton) {
