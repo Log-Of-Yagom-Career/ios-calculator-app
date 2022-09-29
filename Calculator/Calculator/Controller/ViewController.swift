@@ -64,6 +64,13 @@ class ViewController: UIViewController {
     }
     
     @IBAction func signButtonTapped(_ sender: UIButton) {
+        guard let label = numberTextLabel.text else { return }
+        
+        if label.first == "-" {
+            numberTextLabel.text?.removeFirst()
+        } else if label != "0" {
+            numberTextLabel.text = "-" + label
+        }
     }
     
     func numberButtonTapped(_ text: String) {
