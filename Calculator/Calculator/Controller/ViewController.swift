@@ -10,6 +10,12 @@ class ViewController: UIViewController {
     @IBOutlet weak var numberTextLabel: UILabel!
     @IBOutlet weak var operatorLabel: UILabel!
     
+    enum Dot {
+        case able
+        case disable
+    }
+    var dotState = Dot.able
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
@@ -27,6 +33,13 @@ class ViewController: UIViewController {
     }
     
     @IBAction func dotButtonTapped(_ sender: UIButton) {
+        switch dotState {
+        case .able:
+            numberTextLabel.text?.append(".")
+            dotState = .disable
+        case .disable:
+            break
+        }
     }
     
     @IBAction func operatorButtonTapped(_ sender: UIButton) {
