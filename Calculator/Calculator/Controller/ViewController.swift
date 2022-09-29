@@ -49,6 +49,9 @@ class ViewController: UIViewController {
     }
     
     @IBAction func equalButtonTapped(_ sender: UIButton) {
+        operatorLabel.text = nil
+        numberTextLabel.text = "연산결과"
+        dotState = .able
     }
     
     @IBAction func acButtonTapped(_ sender: UIButton) {
