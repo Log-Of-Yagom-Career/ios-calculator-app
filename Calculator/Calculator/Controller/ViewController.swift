@@ -55,6 +55,8 @@ class ViewController: UIViewController {
     }
     
     @IBAction func acButtonTapped(_ sender: UIButton) {
+        numberTextLabel.text = "0"
+        operatorLabel.text = nil
     }
     
     @IBAction func ceButtonTapped(_ sender: UIButton) {
