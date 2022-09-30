@@ -38,8 +38,11 @@
 > > > CalculatorItem
 > > > 
 > > > CalculatorItemExtention
+> > > 
 > > > > Int+CalculateItem
+> > > > 
 > > > > String+CalculateItem
+> > > > 
 > > > > Double+CalculateItem
 
 
