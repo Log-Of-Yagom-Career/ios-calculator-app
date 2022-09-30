@@ -151,7 +151,7 @@ XCTAssertEqual(result as! Int, 1)
 
 | ![](https://i.imgur.com/BjB5b9c.png) | -> |  ![](https://i.imgur.com/VCedJI9.png) |
 | -- | -- | -- |
-| 테스트 파일을 만들 때 계속적으로 새로운 타겟을 생성했다. | |해결방법을 몰라서 사용하지않는 테스트들을 각각 Disable 했다. |
+| 테스트 파일을 만들 때 계속적으로 새로운 타겟을 생성했다. | -- |해결방법을 몰라서 사용하지않는 테스트들을 각각 Disable 했다. |
 
 이렇게 일일이 작업을 해주었는데
 원인을 알고보니 각각의 타겟을 생성한다면 각 타겟마다 시뮬레이터가 열리는 것이다.
@@ -162,6 +162,9 @@ swift파일을 생성해 직접 import XCTest 해주면 된다.
 
 
 [Equatable](https://developer.apple.com/documentation/swift/equatable/)
+
 [Swift Language Guide - Protocols](https://docs.swift.org/swift-book/LanguageGuide/Protocols.html)
+
 [Swift Language Guide - Extentions](https://ko.wikipedia.org/wiki/유닛_테스트)
+
 [Unit Test](https://docs.swift.org/swift-book/LanguageGuide/Protocols.html)
