@@ -19,13 +19,29 @@
 
 ##  타임라인
 
-### 👟 Step 1
-- 배열를 활용한 `CalculatorItemQueue`타입 구현
-- `CalculateItem`프로토콜 생성하여 특정 타입만 입력받도록 구현
-- Extention을 사용하고 CalculatorExtention 폴더로 그룹화
-    - `Int+CalculateItem`
-    - `String+CalculateItem`
-- 테스트를 위한 `CalculatorTests`클래스 구현
+### 👟 Step 1_2
+
+> Model
+> > CalculatorItemQueue
+> > FormulaEntity
+> > > Formula
+> > > FormulaError
+> > > 
+> > ExpressionParserEntity
+> > > ExpressionParserError
+> > > 
+> > OperatorEntity
+> > > Operator
+> > > OperatorError
+> > > 
+> > CalculatorItemEntity
+> > > CalculatorItem
+> > > 
+> > > CalculatorItemExtention
+> > > > Int+CalculateItem
+> > > > String+CalculateItem
+> > > > Double+CalculateItem
+
 
 ##  트러블 슈팅
 
@@ -34,7 +50,7 @@ Data Structure 를 처음 마주하고 구현을 처음 해보았다.
 queue를 사용하기위해 여러 블로그와 글들을 마주 했는데, 이것 저것 구현하다보니
 프로젝트 내에서 지금 당장 필요하지 않은 메서드들 또한 구현하게 되었다.
 
-```swift=
+```swift
  func test_dequeue실행시_queue가_값을_가질때_dequeue의_값이_반환되고_삭제되는지() {
         // given
         let queue1: Int = 10
@@ -54,7 +70,7 @@ queue를 사용하기위해 여러 블로그와 글들을 마주 했는데, 이�
 
 ### Equatable 과의 첫 마주침 
 
-```swift=
+```swift
 struct CalculatorItemQueue {
     private var queue: [CalculatorItem] = []
 
@@ -72,8 +88,8 @@ struct CalculatorItemQueue {
 }
 ```
 
-```swift=
-struct Cal
+```swift
+struct Calculator
 
 import XCTest
 @testable import Calculator
@@ -117,13 +133,27 @@ final class CalculatorTests: XCTestCase {
 해결하기 위해서 CalculatorItem에 Equatable을 채택해서 비교 가능하게 만들어 주어야 하는데
 Test를 하기위해 불필요한 구현을 하면 안된다 생각하고, 아래와 같이 변경했다.
 
-```swift=
+```swift
 let queue1: Int = 1
 
 XCTAssertEqual(result as! Int, 1)
 ```
 타입캐스팅을 해서 Test 에 맞는 test를 해야한다 생각했다.
 불필요한 구현을 최대한 줄이고 이유 있는 코드로 만들도록 해야겠다.
+
+### ⁇ 나는 시뮬레이터가 여러개?!
+![](https://i.imgur.com/9oPQRQP.jpg)
+위의 그림처럼 UnitTest 진행 시 시뮬레이터가 여러개 뜨는 현상을 발견했다.
+
+
+| ![](https://i.imgur.com/BjB5b9c.png) | -> |  ![](https://i.imgur.com/VCedJI9.png) |
+| -- | -- | -- |
+| 테스트 파일을 만들 때 계속적으로 새로운 타겟을 생성했다. | |해결방법을 몰라서 사용하지않는 테스트들을 각각 Disable 했다. |
+
+이렇게 일일이 작업을 해주었는데
+원인을 알고보니 각각의 타겟을 생성한다면 각 타겟마다 시뮬레이터가 열리는 것이다.
+그렇기 때문에 NewFile 을 생성해 UnitText 혹은 
+swift파일을 생성해 직접 import XCTest 해주면 된다.
 
 ## 참고 링크
 
@@ -132,7 +162,3 @@ XCTAssertEqual(result as! Int, 1)
 [Swift Language Guide - Protocols](https://docs.swift.org/swift-book/LanguageGuide/Protocols.html)
 [Swift Language Guide - Extentions](https://ko.wikipedia.org/wiki/유닛_테스트)
 [Unit Test](https://docs.swift.org/swift-book/LanguageGuide/Protocols.html)
-
-
-
- 
