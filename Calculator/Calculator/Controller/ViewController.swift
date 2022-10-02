@@ -16,7 +16,14 @@ class ViewController: UIViewController {
         case able
         case disable
     }
+    
+    enum OperatorAble {
+        case able
+        case disable
+    }
+    
     var dotState = Dot.able
+    var operatorAble = OperatorAble.able
     var operateResult: String = ""
     
     override func viewDidLoad() {
@@ -28,6 +35,7 @@ class ViewController: UIViewController {
     
     @IBAction func numberButtonTapped(_ sender: UIButton) {
         numberButtonTapped(sender.titleLabel?.text ?? "오류")
+        operatorAble = .able
     }
     
     @IBAction func doubleZeroButtonTapped(_ sender: UIButton) {
@@ -52,10 +60,16 @@ class ViewController: UIViewController {
         guard let numberText = numberTextLabel.text,
               let operatorText = operatorLabel.text else { return }
         
-        operateResult += addOperandAndTransedOperator(operandText: operatorText, operatorText: numberText)
+        switch operatorAble {
+        case .able:
+            operateResult += addOperandAndTransedOperator(operandText: operatorText, operatorText: numberText)
+        case .disable:
+            return
+        }
         
         operatorLabel.text = sender.currentTitle
         numberTextLabel.text = "0"
+        operatorAble = .disable
         dotState = .able
         
         //스크롤뷰 설정
