@@ -113,6 +113,7 @@ class ViewController: UIViewController {
     @IBAction func acButtonTapped(_ sender: UIButton) {
         numberTextLabel.text = "0"
         operatorLabel.text = ""
+        subScrollView.subviews.forEach { $0.removeFromSuperview() }
     }
     
     @IBAction func ceButtonTapped(_ sender: UIButton) {
