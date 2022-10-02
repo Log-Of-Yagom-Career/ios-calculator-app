@@ -366,6 +366,8 @@
                     <connections>
                         <outlet property="numberTextLabel" destination="Lwz-OF-XHD" id="vUV-3n-cwC"/>
                         <outlet property="operatorLabel" destination="HPC-iy-qdm" id="FtQ-Jv-BYP"/>
+                        <outlet property="scrollView" destination="BOT-7g-vxv" id="lwg-H6-AvQ"/>
+                        <outlet property="subScrollView" destination="XRe-QE-UJf" id="wsU-9H-pM5"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

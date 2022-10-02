@@ -9,6 +9,8 @@ import UIKit
 class ViewController: UIViewController {
     @IBOutlet weak var numberTextLabel: UILabel!
     @IBOutlet weak var operatorLabel: UILabel!
+    @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var subScrollView: UIStackView!
     
     enum Dot {
         case able
@@ -51,11 +53,16 @@ class ViewController: UIViewController {
               let operatorText = operatorLabel.text else { return }
         
         operateResult += addOperandAndTransedOperator(operandText: operatorText, operatorText: numberText)
-        //스크롤뷰에 operatorText  numberText 추가
         
         operatorLabel.text = sender.currentTitle
         numberTextLabel.text = "0"
         dotState = .able
+        
+        //스크롤뷰 설정
+        let stackview = addStackviewOfScrollView(numberText, operatorText)
+        subScrollView.addArrangedSubview(stackview)
+        let bottomOffset = CGPoint(x: 0, y: scrollView.contentSize.height - scrollView.bounds.height)
+        scrollView.setContentOffset(bottomOffset, animated: true)
     }
     
     @IBAction func equalButtonTapped(_ sender: UIButton) {
@@ -132,5 +139,30 @@ class ViewController: UIViewController {
         
         return " " + transedOperatorText + " " + operatorText
     }
+    
+    func addStackviewOfScrollView(_ operandText: String, _ operatorText: String) -> UIStackView {
+        let operatorLabel: UILabel = {
+            let label = UILabel()
+            label.textColor = .white
+            label.font = .preferredFont(forTextStyle: .title3)
+            label.text = operatorText
+            
+            return label
+        }()
+        
+        let operandLabel: UILabel = {
+            let label = UILabel()
+            label.textColor = .white
+            label.font = .preferredFont(forTextStyle: .title3)
+            label.text = operandText
+            
+            return label
+        }()
+        
+        let stackView = UIStackView()
+        stackView.addArrangedSubview(operatorLabel)
+        stackView.addArrangedSubview(operandLabel)
+        
+        return stackView
+    }
 }
-
