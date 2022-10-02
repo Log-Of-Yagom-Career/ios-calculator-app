@@ -31,6 +31,7 @@ class ViewController: UIViewController {
         
         numberTextLabel.text = "0"
         operatorLabel.text = ""
+        subScrollView.subviews.forEach { $0.removeFromSuperview() }
     }
     
     @IBAction func numberButtonTapped(_ sender: UIButton) {
@@ -106,6 +107,7 @@ class ViewController: UIViewController {
         }
         
         operateResult = ""
+        subScrollView.subviews.forEach { $0.removeFromSuperview() }
     }
     
     @IBAction func acButtonTapped(_ sender: UIButton) {
