@@ -12,26 +12,14 @@ class ViewController: UIViewController {
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var subScrollView: UIStackView!
     
-    enum Dot {
-        case able
-        case disable
-    }
-    
-    enum OperatorAble {
-        case able
-        case disable
-    }
-    
-    var dotState = Dot.able
+    var dotState = DotAble.able
     var operatorAble = OperatorAble.able
     var operateResult: String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        numberTextLabel.text = "0"
-        operatorLabel.text = ""
-        subScrollView.subviews.forEach { $0.removeFromSuperview() }
+        clearCalculate()
     }
     
     @IBAction func numberButtonTapped(_ sender: UIButton) {
@@ -111,9 +99,7 @@ class ViewController: UIViewController {
     }
     
     @IBAction func acButtonTapped(_ sender: UIButton) {
-        numberTextLabel.text = "0"
-        operatorLabel.text = ""
-        subScrollView.subviews.forEach { $0.removeFromSuperview() }
+        clearCalculate()
     }
     
     @IBAction func ceButtonTapped(_ sender: UIButton) {
@@ -128,6 +114,24 @@ class ViewController: UIViewController {
         } else if label != "0" {
             numberTextLabel.text = "-" + label
         }
+    }
+}
+
+extension ViewController {
+    enum DotAble {
+        case able
+        case disable
+    }
+    
+    enum OperatorAble {
+        case able
+        case disable
+    }
+    
+    func clearCalculate() {
+        numberTextLabel.text = "0"
+        operatorLabel.text = ""
+        subScrollView.subviews.forEach { $0.removeFromSuperview() }
     }
     
     func numberButtonTapped(_ text: String) {
