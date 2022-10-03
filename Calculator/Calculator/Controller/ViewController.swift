@@ -12,8 +12,9 @@ class ViewController: UIViewController {
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var subScrollView: UIStackView!
     
-    var dotState = DotAble.able
-    var operatorAble = OperatorAble.able
+    var dotState = DotAble.enable
+    var operatorAble = OperatorAble.enable
+    var equalaAble = EqualAble.disable
     var operateResult: String = ""
     
     override func viewDidLoad() {
@@ -24,7 +25,10 @@ class ViewController: UIViewController {
     
     @IBAction func numberButtonTapped(_ sender: UIButton) {
         numberButtonTapped(sender.titleLabel?.text ?? "오류")
-        operatorAble = .able
+        
+        //dot 상관없음
+        operatorAble = .enable
+        equalaAble = .enable
     }
     
     @IBAction func doubleZeroButtonTapped(_ sender: UIButton) {
@@ -33,11 +37,15 @@ class ViewController: UIViewController {
         } else {
             numberTextLabel.text?.append("00")
         }
+        
+        //dot상관없음
+        operatorAble = .enable
+        equalaAble = .enable
     }
     
     @IBAction func dotButtonTapped(_ sender: UIButton) {
         switch dotState {
-        case .able:
+        case .enable:
             numberTextLabel.text?.append(".")
             dotState = .disable
         case .disable:
@@ -49,23 +57,25 @@ class ViewController: UIViewController {
         guard let numberText = numberTextLabel.text,
               let operatorText = operatorLabel.text else { return }
         
-        switch operatorAble {
-        case .able:
-            operateResult += addOperandAndTransedOperator(operandText: operatorText, operatorText: numberText)
-        case .disable:
-            return
-        }
-        
         operatorLabel.text = sender.currentTitle
         numberTextLabel.text = "0"
-        operatorAble = .disable
-        dotState = .able
-        
-        //스크롤뷰 설정
-        let stackview = addStackviewOfScrollView(numberText, operatorText)
-        subScrollView.addArrangedSubview(stackview)
-        let bottomOffset = CGPoint(x: 0, y: scrollView.contentSize.height - scrollView.bounds.height)
-        scrollView.setContentOffset(bottomOffset, animated: true)
+        switch operatorAble {
+        case .enable:
+            operateResult += addOperandAndTransedOperator(operandText: operatorText, operatorText: numberText)
+            operatorAble = .disable
+            
+            //스크롤뷰 설정
+            let stackview = addStackviewOfScrollView(numberText, operatorText)
+            subScrollView.addArrangedSubview(stackview)
+            let bottomOffset = CGPoint(x: 0, y: scrollView.contentSize.height - scrollView.bounds.height)
+            scrollView.setContentOffset(bottomOffset, animated: true)
+            
+        case .disable:
+            print("change operator: \(operatorText)")
+        }
+
+        dotState = .enable
+        equalaAble = .disable
     }
     
     @IBAction func equalButtonTapped(_ sender: UIButton) {
@@ -74,28 +84,33 @@ class ViewController: UIViewController {
         operatorLabel.text = ""
         operateResult += addOperandAndTransedOperator(operandText: operatorText, operatorText: numberText)
         
-        do {
-            var queue = try ExpressionParser.parse(from: operateResult)
-            numberTextLabel.text = try String(queue.result())
-            dotState = .able
+        switch equalaAble {
+        case .enable:
+            do {
+                var queue = try ExpressionParser.parse(from: operateResult)
+                numberTextLabel.text = try String(queue.result())
+                dotState = .enable
+                operatorAble = .enable
+            } catch OperatorError.notUseZero {
+                numberTextLabel.text = "NaN"
+            } catch FormulaError.hasNotOperandValue, FormulaError.hasNotOperatorValue {
+                print("Not operator, Operand")
+            } catch FormulaError.isNotDouble {
+                print("Not Double")
+            } catch FormulaError.notValidCountQueue {
+                print("NotValidCountQueue")
+            } catch ExpressionParserError.canNotChangeDouble{
+                print("CanNotChangeDouble")
+            } catch {
+                print("Another Error")
+            }
+            equalaAble = .disable
             operateResult = ""
+            subScrollView.subviews.forEach { $0.removeFromSuperview() }
             
-        } catch OperatorError.notUseZero {
-            numberTextLabel.text = "NaN"
-        } catch FormulaError.hasNotOperandValue, FormulaError.hasNotOperatorValue {
-            print("Not operator, Operand")
-        } catch FormulaError.isNotDouble {
-            print("Not Double")
-        } catch FormulaError.notValidCountQueue {
-            print("NotValidCountQueue")
-        } catch ExpressionParserError.canNotChangeDouble{
-            print("CanNotChangeDouble")
-        } catch {
-            print("Another Error")
+        case .disable:
+            print("do not equal button")
         }
-        
-        operateResult = ""
-        subScrollView.subviews.forEach { $0.removeFromSuperview() }
     }
     
     @IBAction func acButtonTapped(_ sender: UIButton) {
@@ -104,6 +119,8 @@ class ViewController: UIViewController {
     
     @IBAction func ceButtonTapped(_ sender: UIButton) {
         numberTextLabel.text = "0"
+        dotState = .enable
+        equalaAble = .disable
     }
     
     @IBAction func signButtonTapped(_ sender: UIButton) {
@@ -119,12 +136,17 @@ class ViewController: UIViewController {
 
 extension ViewController {
     enum DotAble {
-        case able
+        case enable
         case disable
     }
     
     enum OperatorAble {
-        case able
+        case enable
+        case disable
+    }
+    
+    enum EqualAble {
+        case enable
         case disable
     }
     
@@ -132,6 +154,9 @@ extension ViewController {
         numberTextLabel.text = "0"
         operatorLabel.text = ""
         subScrollView.subviews.forEach { $0.removeFromSuperview() }
+        dotState = .enable
+        operatorAble = .enable
+        equalaAble = .disable
     }
     
     func numberButtonTapped(_ text: String) {
